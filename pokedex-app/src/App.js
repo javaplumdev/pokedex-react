@@ -1,35 +1,62 @@
-import './App.css';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-function App() {
-	const pokemonsUrl = `https://pokeapi.co/api/v2/pokemon?limit=3`;
+import Pokedex from './components/Pokedex';
 
-	const [allPokemons, setAllPokemons] = useState([]);
-	const [pokemon, setPokemon] = useState([]);
+import './App.css';
+
+function App() {
+	const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=500`;
+	const [pokemonUrls, setPokemonUrls] = useState([]);
 	const [pokemonContainer, setPokemonContainer] = useState([]);
 
-	function fetchAPI() {
-		axios.get(pokemonsUrl).then((response) => {
-			setAllPokemons(response.data.results);
+	const uniqueIds = [];
+
+	function fetchApi() {
+		axios.get(pokemonUrl).then((response) => {
+			setPokemonUrls(response.data.results);
+		});
+
+		pokemonUrls.forEach((item) => {
+			axios.get(item.url).then((response) => {
+				console.log(response.data);
+				setPokemonContainer((allList) => [...allList, response.data]);
+			});
 		});
 	}
 
-	allPokemons.forEach((item) => {
-		axios.get(item.url).then((response) => {
-			setPokemonContainer(response);
-		});
+	const uniquePokemons = pokemonContainer.filter((element) => {
+		const isDuplicate = uniqueIds.includes(element.id);
 
-		setPokemon((prevState) => [...prevState, pokemonContainer]);
+		if (!isDuplicate) {
+			uniqueIds.push(element.id);
+
+			return true;
+		}
+
+		return false;
 	});
 
 	useEffect(() => {
-		fetchAPI();
+		fetchApi();
 	}, []);
 
 	return (
-		<div className="App">
-			<p>Hi</p>
+		<div className="app-container">
+			<h1>Pokemon Kingdom .</h1>
+
+			<div className="pokemon-card-container">
+				{uniquePokemons.map((item) => {
+					return (
+						<Pokedex
+							key={item.id}
+							name={item.name}
+							image={item.sprites.other.dream_world.front_default}
+							types={item.types}
+						/>
+					);
+				})}
+			</div>
 		</div>
 	);
 }

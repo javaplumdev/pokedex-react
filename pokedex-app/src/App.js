@@ -1,31 +1,37 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import Pokedex from './components/Pokedex';
-
 import './App.css';
 
 function App() {
-	const pokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=500`;
-	const [pokemonUrls, setPokemonUrls] = useState([]);
-	const [pokemonContainer, setPokemonContainer] = useState([]);
+	const [allPokemons, setAllPokemons] = useState([]);
+	const [loadPoke, setLoadPoke] = useState(
+		`https://pokeapi.co/api/v2/pokemon?limit=10`
+	);
 
 	const uniqueIds = [];
 
-	function fetchApi() {
-		axios.get(pokemonUrl).then((response) => {
-			setPokemonUrls(response.data.results);
-		});
+	const getAllPokemons = async () => {
+		const res = await fetch(loadPoke);
+		const data = await res.json();
 
-		pokemonUrls.forEach((item) => {
-			axios.get(item.url).then((response) => {
-				console.log(response.data);
-				setPokemonContainer((allList) => [...allList, response.data]);
+		setLoadPoke(data.next);
+
+		function createPokemonObject(result) {
+			result.map(async (pokemon) => {
+				const res = await fetch(
+					`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+				);
+				const data = await res.json();
+
+				setAllPokemons((prevState) => [...prevState, data]);
 			});
-		});
-	}
+		}
 
-	const uniquePokemons = pokemonContainer.filter((element) => {
+		createPokemonObject(data.results);
+	};
+
+	const uniquePokemons = allPokemons.filter((element) => {
 		const isDuplicate = uniqueIds.includes(element.id);
 
 		if (!isDuplicate) {
@@ -37,8 +43,10 @@ function App() {
 		return false;
 	});
 
+	console.log(uniquePokemons);
+
 	useEffect(() => {
-		fetchApi();
+		getAllPokemons();
 	}, []);
 
 	return (
@@ -47,14 +55,7 @@ function App() {
 
 			<div className="pokemon-card-container">
 				{uniquePokemons.map((item) => {
-					return (
-						<Pokedex
-							key={item.id}
-							name={item.name}
-							image={item.sprites.other.dream_world.front_default}
-							types={item.types}
-						/>
-					);
+					return <p key={item.id}>{item.name}</p>;
 				})}
 			</div>
 		</div>

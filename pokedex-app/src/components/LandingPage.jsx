@@ -1,9 +1,11 @@
 import Pokecard from './Pokecard';
 import React, { useContext } from 'react';
 import { contextHolder } from '../context/ContextAPI';
+import ReactPaginate from 'react-paginate';
 
 function LandingPage() {
-	const { uniquePokemons } = useContext(contextHolder);
+	const { uniquePokemons, currentItems, handlePageClick, pageCount } =
+		useContext(contextHolder);
 
 	return (
 		<>
@@ -26,11 +28,21 @@ function LandingPage() {
 							weight={item.weight}
 							abilities={item.abilities}
 							stats={item.stats}
+							currentItems={currentItems}
 						>
 							{item.name}
 						</Pokecard>
 					);
 				})}
+				<ReactPaginate
+					breakLabel="..."
+					nextLabel="next >"
+					onPageChange={handlePageClick}
+					pageRangeDisplayed={5}
+					pageCount={pageCount}
+					previousLabel="< previous"
+					renderOnZeroPageCount={null}
+				/>
 			</div>
 		</>
 	);

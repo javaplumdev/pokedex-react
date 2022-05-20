@@ -1,7 +1,19 @@
 function Pokecard({ name, image, types, colorType, order }) {
 	return (
-		<div className={`${colorType} position-relative p-3`}>
-			<img src={image} alt={name} />
+		<div
+			className={`${colorType} position-relative p-3 m-2`}
+			style={{
+				width: '320px',
+				borderRadius: '20px',
+				border: '5px solid yellow',
+			}}
+		>
+			<img
+				src={image}
+				alt={name}
+				className="pokemon-img img-fluid"
+				style={{ width: '270px', height: '300px' }}
+			/>
 			<p className="lead fw-bold">{name}</p>
 			<div className="d-flex">
 				{types.map((item) => {
@@ -12,7 +24,7 @@ function Pokecard({ name, image, types, colorType, order }) {
 					);
 				})}
 			</div>
-			<p className="position-absolute top-0 bg-light p-2 rounded m-1 fw-bold">
+			<p className="position-absolute top-0 bg-light p-2 rounded my-3 fw-bold">
 				{order}
 			</p>
 		</div>

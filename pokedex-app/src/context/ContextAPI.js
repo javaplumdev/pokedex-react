@@ -7,7 +7,7 @@ export function ContextProvider({ children }) {
 
 	const [allPokemons, setAllPokemons] = useState([]);
 	const [loadPoke, setLoadPoke] = useState(
-		`https://pokeapi.co/api/v2/pokemon?limit=10`
+		`https://pokeapi.co/api/v2/pokemon?limit=50`
 	);
 
 	const uniqueIds = [];

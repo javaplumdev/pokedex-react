@@ -2,17 +2,19 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { Container } from 'react-bootstrap';
+
 import { ContextProvider } from './context/ContextAPI';
 import LandingPage from './components/LandingPage';
 
 function App() {
 	return (
 		<ContextProvider>
-			<div className="app-container">
-				<h1>Pokemon Kingdom .</h1>
-
-				<LandingPage />
-			</div>
+			<Container>
+				<div className="app-container">
+					<LandingPage />
+				</div>
+			</Container>
 		</ContextProvider>
 	);
 }

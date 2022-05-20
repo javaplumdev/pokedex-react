@@ -7,6 +7,7 @@ function LandingPage() {
 
 	return (
 		<>
+			<h1 className="text-center">Pokemon Kingdom .</h1>
 			<div className="pokemon-card-container">
 				{uniquePokemons.map((item) => {
 					const colorType = item.types.slice(0, 1).map((item) => {

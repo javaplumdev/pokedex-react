@@ -33,7 +33,7 @@ function Pokecard({
 					Length: {height}", Weight: {weight}lbs
 				</small>
 			</div>
-			<div className="d-flex flex-wrap">
+			<div className="d-flex flex-wrap my-2">
 				{stats
 					.filter((data) => data.stat.name != 'hp')
 					.map((item) => {

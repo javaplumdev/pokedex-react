@@ -1,4 +1,14 @@
-function Pokecard({ name, image, types, colorType, order }) {
+function Pokecard({
+	name,
+	image,
+	types,
+	colorType,
+	order,
+	height,
+	weight,
+	abilities,
+	stats,
+}) {
 	return (
 		<div
 			className={`${colorType} position-relative p-3 m-2`}
@@ -8,25 +18,75 @@ function Pokecard({ name, image, types, colorType, order }) {
 				border: '5px solid yellow',
 			}}
 		>
+			<p className="lead fw-bold" style={{ marginLeft: '20px' }}>
+				{name.charAt(0).toUpperCase() + name.slice(1)}
+			</p>
 			<img
 				src={image}
 				alt={name}
 				className="pokemon-img img-fluid"
-				style={{ width: '270px', height: '300px' }}
+				style={{ width: '270px', height: '170px' }}
 			/>
-			<p className="lead fw-bold">{name}</p>
-			<div className="d-flex">
+
+			<div className="my-1">
+				<small>
+					Length: {height}", Weight: {weight}lbs
+				</small>
+			</div>
+			<div className="d-flex flex-wrap">
+				{stats
+					.filter((data) => data.stat.name != 'hp')
+					.map((item) => {
+						return (
+							<small className="bg-light m-1 p-1 rounded">
+								{item.stat.name}: {item.base_stat}
+							</small>
+						);
+					})}
+			</div>
+			<div
+				className="d-flex py-2 align-items-center"
+				style={{ borderTop: '1px solid black' }}
+			>
+				<small>Pokemon type:</small>
 				{types.map((item) => {
 					return (
-						<div className="me-2 bg-light text-dark rounded p-2">
+						<div key={item.id} className="me-2 ">
 							<small key={item.slot}>{item.type.name}</small>
 						</div>
 					);
 				})}
 			</div>
-			<p className="position-absolute top-0 bg-light p-2 rounded my-3 fw-bold">
+			<small
+				className="position-absolute bg-light p-2 rounded my-3 fw-bold "
+				style={{ top: '10%' }}
+			>
 				{order}
-			</p>
+			</small>
+
+			<div
+				className="position-absolute top-0 my-3 d-flex"
+				style={{ right: '10%' }}
+			>
+				{stats
+					.filter((item) => item.stat.name === 'hp')
+					.map((item) => {
+						return (
+							<div>
+								<small className="me-1">{item.stat.name.toUpperCase()}:</small>
+								<small className="fw-bold fs-5">{item.base_stat}</small>
+							</div>
+						);
+					})}
+			</div>
+			<div
+				className="d-flex justify-content-around"
+				style={{ borderTop: '1px solid black' }}
+			>
+				{abilities.map((item) => {
+					return <small>{item.ability.name}</small>;
+				})}
+			</div>
 		</div>
 	);
 }

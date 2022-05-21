@@ -10,11 +10,11 @@ import LandingPage from './components/LandingPage';
 function App() {
 	return (
 		<ContextProvider>
-			<Container>
-				<div className="app-container">
+			<div className="App">
+				<Container>
 					<LandingPage />
-				</div>
-			</Container>
+				</Container>
+			</div>
 		</ContextProvider>
 	);
 }

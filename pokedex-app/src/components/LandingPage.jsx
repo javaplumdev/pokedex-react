@@ -4,12 +4,17 @@ import { contextHolder } from '../context/ContextAPI';
 import ReactPaginate from 'react-paginate';
 
 function LandingPage() {
-	const { uniquePokemons, currentItems, handlePageClick, pageCount } =
-		useContext(contextHolder);
+	const { uniquePokemons } = useContext(contextHolder);
 
 	return (
 		<>
-			<h1 className="text-center fw-bold">Pokedex. Gotta catch em all.</h1>
+			<div className="text-dark py-5 ">
+				<h1 className="fw-bold display-5">
+					Pokedex.<br></br> Gotta catch em all.
+				</h1>
+				<p className="lead">Get to see more of over a thousand of pokemons</p>
+			</div>
+
 			<div className="pokemon-card-container">
 				{uniquePokemons.map((item) => {
 					const colorType = item.types.slice(0, 1).map((item) => {
@@ -28,21 +33,11 @@ function LandingPage() {
 							weight={item.weight}
 							abilities={item.abilities}
 							stats={item.stats}
-							currentItems={currentItems}
 						>
 							{item.name}
 						</Pokecard>
 					);
 				})}
-				<ReactPaginate
-					breakLabel="..."
-					nextLabel="next >"
-					onPageChange={handlePageClick}
-					pageRangeDisplayed={5}
-					pageCount={pageCount}
-					previousLabel="< previous"
-					renderOnZeroPageCount={null}
-				/>
 			</div>
 		</>
 	);

@@ -8,11 +8,10 @@ function Pokecard({
 	weight,
 	abilities,
 	stats,
-	currentItems,
 }) {
 	return (
 		<>
-			{currentItems && (
+			{
 				<div
 					className={`${colorType} position-relative p-3 m-2`}
 					style={{
@@ -21,9 +20,14 @@ function Pokecard({
 						border: '5px solid yellow',
 					}}
 				>
-					<p className="lead fw-bold" style={{ marginLeft: '20px' }}>
-						{name.charAt(0).toUpperCase() + name.slice(1)}
-					</p>
+					<div>
+						<p className="lead fw-bold" style={{ marginLeft: '20px' }}>
+							{name.charAt(0).toUpperCase() + name.slice(1)}
+						</p>
+						<small className="bg-lightrounded px-2 py-2 bg-light rounded-circle fw-bold ">
+							{order}
+						</small>
+					</div>
 					<img
 						src={image}
 						alt={name}
@@ -60,12 +64,6 @@ function Pokecard({
 							);
 						})}
 					</div>
-					<small
-						className="position-absolute bg-light p-2 rounded my-3 fw-bold "
-						style={{ top: '10%' }}
-					>
-						{order}
-					</small>
 
 					<div
 						className="position-absolute top-0 my-3 d-flex"
@@ -93,7 +91,7 @@ function Pokecard({
 						})}
 					</div>
 				</div>
-			)}
+			}
 		</>
 	);
 }
